@@ -69,24 +69,61 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Layout */
+/* Layout - Updated for fixed layout with scrollable content */
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden; /* Prevent the main container from scrolling */
 }
 
+/* Content container - Updated to add margin to scrollbar */
 .content-container {
   flex: 1;
+  position: relative;
+  overflow-y: auto; /* Make only the content area scrollable */
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: var(--space-md);
-  padding-top: calc(var(--space-xl) + 60px); /* Header height + padding */
-  padding-bottom: calc(var(--space-xl) + 80px); /* Footer height + padding */
+  padding: 0 var(--space-md);
+  margin-top: 60px; /* Header height */
+  margin-bottom: 60px; /* Footer height */
+  
+  /* Add padding to create space for scrollbar */
+  padding-right: calc(var(--space-md) + 8px);
 }
 
-/* Header */
+/* Custom scrollbar styling with margin from edge */
+.content-container::-webkit-scrollbar {
+  width: 8px;
+  /* Position the scrollbar with some margin from the edge */
+  margin-right: 8px;
+}
+
+.content-container::-webkit-scrollbar-track {
+  background: var(--color-background);
+  margin-top: 60px; /* Match header height to create margin at top */
+  margin-bottom: 60px; /* Match footer height to create margin at bottom */
+}
+
+.content-container::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 4px;
+  /* Add border to create space from the edge */
+  border-right: 2px solid var(--color-background);
+}
+
+.content-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-accent);
+}
+
+/* For Firefox scrollbar customization */
+.content-container {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) var(--color-background);
+}
+
+/* Header - Ensure it stays fixed */
 header {
   position: fixed;
   top: 0;
@@ -173,14 +210,14 @@ header {
   cursor: pointer;
 }
 
-/* Footer */
+/* Footer - Ensure it stays fixed */
 footer {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+  height: 60px; /* Fixed height for footer */
   background-color: var(--color-background-alt);
-  padding: var(--space-md) 0;
   z-index: 990;
   transition: background-color var(--transition-normal);
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
@@ -188,12 +225,18 @@ footer {
 
 .footer-container {
   max-width: 1200px;
+  height: 100%;
   margin: 0 auto;
   padding: 0 var(--space-md);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+}
+
+/* Page content wrapper - add this new class */
+.page-content {
+  padding: var(--space-lg) 0;
 }
 
 .footer-links {
