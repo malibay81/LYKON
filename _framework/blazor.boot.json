@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "LYKON",
   "resources": {
-    "hash": "sha256-BVCfd5ATbGuM2E6aw/1qbvQTSH6lbFw9gE/3EaWQ9/0=",
+    "hash": "sha256-CLK0aTJwfFcxNdu12dAbC8UrDqeOBnsiCdYonbcMPHU=",
     "jsModuleNative": {
       "dotnet.native.8.0.15.l5bze06whq.js": "sha256-ftpNqtARtVNE8ku5eB/jXoklb41UQ+EutUHfwmbNTBY="
     },
@@ -17,7 +17,7 @@
       "icudt_no_CJK.dat": "sha256-L7sV7NEYP37/Qr2FPCePo5cJqRgTXRwGHuwF5Q+0Nfs="
     },
     "assembly": {
-      "LYKON.wasm": "sha256-Wgn/YQ5WhqesN0S77n2KKdyfBe2jkLrkPcQQ1pw+pVY=",
+      "LYKON.wasm": "sha256-KRuEMCp+7mIOO/meoEnyLbmcSX92ZStIb2VxoCCgTZo=",
       "Microsoft.AspNetCore.Components.Forms.wasm": "sha256-rgdeA2AsLmfi/PukXaMOtBtmrIBvIBKVaIPq/fjDf1s=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-D+jJVoKp3NmQi63LWJbZ5+yQSqxfa8FG7PiKNq+BSXA=",
       "Microsoft.AspNetCore.Components.Web.wasm": "sha256-hzL65qT2OLYYkrlJObwqOEe5XRwA9srQ+k7ZxMbExTM=",
