@@ -2,7 +2,7 @@
 @implements IDisposable
 @inject IJSRuntime JSRuntime
 
-<div class="app-container @_themeClass">
+<div class="app-container">
     <Header OnToggleTheme="ToggleTheme" />
     
     <div class="content-container">
@@ -15,7 +15,6 @@
 </div>
 
 @code {
-    private string _themeClass = "";
     private IJSObjectReference? _themeModule;
     
     protected override async Task OnInitializedAsync()
@@ -23,8 +22,7 @@
         try
         {
             _themeModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/theme.js");
-            var theme = await _themeModule.InvokeAsync<string>("getTheme");
-            _themeClass = theme == "light" ? "data-theme=\"light\"" : "";
+            await _themeModule.InvokeVoidAsync("setTheme", await _themeModule.InvokeAsync<string>("getTheme"));
         }
         catch (Exception)
         {
@@ -38,8 +36,7 @@
         {
             if (_themeModule != null)
             {
-                var newTheme = await _themeModule.InvokeAsync<string>("toggleTheme");
-                _themeClass = newTheme == "light" ? "data-theme=\"light\"" : "";
+                await _themeModule.InvokeVoidAsync("toggleTheme");
             }
         }
         catch (Exception)
