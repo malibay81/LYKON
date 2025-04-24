@@ -1,3 +1,58 @@
 ﻿@inherits LayoutComponentBase
+@implements IDisposable
+@inject IJSRuntime JSRuntime
 
-@Body
+<div class="app-container @_themeClass">
+    <Header OnToggleTheme="ToggleTheme" />
+    
+    <div class="content-container">
+        <div class="page-transition-container">
+            @Body
+        </div>
+    </div>
+    
+    <Footer />
+</div>
+
+@code {
+    private string _themeClass = "";
+    private IJSObjectReference? _themeModule;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _themeModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/theme.js");
+            var theme = await _themeModule.InvokeAsync<string>("getTheme");
+            _themeClass = theme == "light" ? "data-theme=\"light\"" : "";
+        }
+        catch (Exception)
+        {
+            // Handle possible JS interop exceptions
+        }
+    }
+
+    private async Task ToggleTheme()
+    {
+        try
+        {
+            if (_themeModule != null)
+            {
+                var newTheme = await _themeModule.InvokeAsync<string>("toggleTheme");
+                _themeClass = newTheme == "light" ? "data-theme=\"light\"" : "";
+            }
+        }
+        catch (Exception)
+        {
+            // Handle possible JS interop exceptions
+        }
+    }
+
+    public async void Dispose()
+    {
+        if (_themeModule != null)
+        {
+            await _themeModule.DisposeAsync();
+        }
+    }
+}

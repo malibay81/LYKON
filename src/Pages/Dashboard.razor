@@ -1,0 +1,128 @@
+@page "/dashboard"
+@inject HttpClient Http
+@using System.Text.Json
+@using System.Text.Json.Serialization
+
+<PageTitle>LYKON - Dashboard</PageTitle>
+
+<h1 class="mb-lg">Dashboard</h1>
+
+@if (_isLoading)
+{
+    <div class="loading-indicator">
+        <div class="spinner"></div>
+    </div>
+}
+else
+{
+    <div class="dashboard">
+        <div class="stat-card">
+            <div class="stat-value">@_salesData.TotalSales.ToString("C0")</div>
+            <div class="stat-label">Total Sales</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-value">@_salesData.NewCustomers</div>
+            <div class="stat-label">New Customers</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-value">@_salesData.ConversionRate.ToString("P1")</div>
+            <div class="stat-label">Conversion Rate</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-value">@_salesData.AverageOrderValue.ToString("C0")</div>
+            <div class="stat-label">Average Order Value</div>
+        </div>
+    </div>
+    
+    <h2 class="mb-md mt-xl">Recent Orders</h2>
+    
+    <div class="card">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in _recentOrders)
+                {
+                    <tr>
+                        <td>#@order.Id</td>
+                        <td>@order.CustomerName</td>
+                        <td>@order.OrderDate.ToShortDateString()</td>
+                        <td>@order.Amount.ToString("C2")</td>
+                        <td>
+                            <span class="status-badge @GetStatusClass(order.Status)">
+                                @order.Status
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private bool _isLoading = true;
+    private SalesDashboardData _salesData = new();
+    private List<Order> _recentOrders = new();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(1000); // Simulate API call
+        
+        // Mock data for demonstration
+        _salesData = new SalesDashboardData
+        {
+            TotalSales = 285750,
+            NewCustomers = 124,
+            ConversionRate = 0.24m,
+            AverageOrderValue = 1250
+        };
+        
+        _recentOrders = new List<Order>
+        {
+            new() { Id = "8721", CustomerName = "John Smith", OrderDate = DateTime.Now.AddDays(-1), Amount = 1450.75m, Status = "Completed" },
+            new() { Id = "8720", CustomerName = "Emma Johnson", OrderDate = DateTime.Now.AddDays(-1), Amount = 879.25m, Status = "Processing" },
+            new() { Id = "8719", CustomerName = "Alex Wang", OrderDate = DateTime.Now.AddDays(-2), Amount = 2140.00m, Status = "Completed" },
+            new() { Id = "8718", CustomerName = "Maria Garcia", OrderDate = DateTime.Now.AddDays(-3), Amount = 530.50m, Status = "Shipped" },
+            new() { Id = "8717", CustomerName = "Robert Brown", OrderDate = DateTime.Now.AddDays(-3), Amount = 1275.00m, Status = "Cancelled" }
+        };
+        
+        _isLoading = false;
+    }
+    
+    private string GetStatusClass(string status) => status switch
+    {
+        "Completed" => "status-completed",
+        "Processing" => "status-processing",
+        "Shipped" => "status-shipped",
+        "Cancelled" => "status-cancelled",
+        _ => ""
+    };
+    
+    public class SalesDashboardData
+    {
+        public decimal TotalSales { get; set; }
+        public int NewCustomers { get; set; }
+        public decimal ConversionRate { get; set; }
+        public decimal AverageOrderValue { get; set; }
+    }
+    
+    public class Order
+    {
+        public string Id { get; set; } = string.Empty;
+        public string CustomerName { get; set; } = string.Empty;
+        public DateTime OrderDate { get; set; }
+        public decimal Amount { get; set; }
+        public string Status { get; set; } = string.Empty;
+    }
+}

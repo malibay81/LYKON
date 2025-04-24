@@ -1,0 +1,64 @@
+/* Table styles */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: var(--space-sm) var(--space-md);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.table th {
+    font-weight: 600;
+    color: var(--color-text-muted);
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+.status-completed {
+    background-color: rgba(0, 255, 0, 0.1);
+    color: #00cc00;
+}
+
+.status-processing {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: #0d6efd;
+}
+
+.status-shipped {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+}
+
+.status-cancelled {
+    background-color: rgba(255, 0, 0, 0.1);
+    color: #ff4d4f;
+}
+
+/* Alert styles */
+.alert {
+    padding: var(--space-md);
+    border-radius: var(--border-radius-md);
+    margin-bottom: var(--space-md);
+}
+
+.alert-success {
+    background-color: rgba(0, 255, 0, 0.1);
+    border: 1px solid #00cc00;
+    color: #00cc00;
+}
+
+.alert-danger {
+    background-color: rgba(255, 0, 0, 0.1);
+    border: 1px solid #ff4d4f;
+    color: #ff4d4f;
+}

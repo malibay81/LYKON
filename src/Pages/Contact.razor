@@ -1,0 +1,90 @@
+@page "/contact"
+@using System.ComponentModel.DataAnnotations
+
+<PageTitle>LYKON - Contact Us</PageTitle>
+
+<h1 class="text-center mb-lg">Contact Us</h1>
+
+<div class="card">
+    <EditForm Model="@_contactForm" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+        
+        <div class="form-group">
+            <label class="form-label" for="name">Name</label>
+            <InputText id="name" class="form-control" @bind-Value="_contactForm.Name" />
+            <ValidationMessage For="@(() => _contactForm.Name)" class="validation-message" />
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <InputText id="email" class="form-control" @bind-Value="_contactForm.Email" />
+            <ValidationMessage For="@(() => _contactForm.Email)" class="validation-message" />
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="subject">Subject</label>
+            <InputText id="subject" class="form-control" @bind-Value="_contactForm.Subject" />
+            <ValidationMessage For="@(() => _contactForm.Subject)" class="validation-message" />
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="message">Message</label>
+            <InputTextArea id="message" class="form-control" @bind-Value="_contactForm.Message" rows="5" />
+            <ValidationMessage For="@(() => _contactForm.Message)" class="validation-message" />
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" disabled="@_isSubmitting">
+                @if (_isSubmitting)
+                {
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span> Sending...</span>
+                }
+                else
+                {
+                    <span>Send Message</span>
+                }
+            </button>
+        </div>
+        
+        @if (_isSubmitSuccess)
+        {
+            <div class="alert alert-success mt-md">
+                Your message has been sent! We'll get back to you soon.
+            </div>
+        }
+    </EditForm>
+</div>
+
+@code {
+    private ContactForm _contactForm = new();
+    private bool _isSubmitting = false;
+    private bool _isSubmitSuccess = false;
+    
+    private async Task HandleSubmit()
+    {
+        _isSubmitting = true;
+        await Task.Delay(1500); // Simulate API call
+        _isSubmitting = false;
+        _isSubmitSuccess = true;
+        _contactForm = new ContactForm();
+    }
+    
+    public class ContactForm
+    {
+        [Required(ErrorMessage = "Name is required")]
+        [StringLength(100, ErrorMessage = "Name is too long")]
+        public string Name { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        public string Email { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Subject is required")]
+        public string Subject { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Message is required")]
+        [StringLength(1000, MinimumLength = 10, ErrorMessage = "Message must be between 10 and 1000 characters")]
+        public string Message { get; set; } = string.Empty;
+    }
+}

@@ -1,0 +1,62 @@
+@inject NavigationManager NavigationManager
+
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <NavLink href="">
+                <span class="logo-text">LYKON</span>
+            </NavLink>
+        </div>
+        
+        <button class="mobile-nav-toggle" @onclick="ToggleMenu">
+            <span class="@(_isMenuOpen ? "oi oi-x" : "oi oi-menu")"></span>
+        </button>
+        
+        <ul class="nav-links @(_isMenuOpen ? "active" : "")">
+            <li><NavLink href="" Match="NavLinkMatch.All">Home</NavLink></li>
+            <li><NavLink href="about">About</NavLink></li>
+            <li><NavLink href="contact">Contact</NavLink></li>
+            <li><NavLink href="dashboard">Dashboard</NavLink></li>
+            <li>
+                <button class="theme-toggle" @onclick="OnToggleTheme">
+                    <span class="oi @(_isDarkTheme ? "oi-sun" : "oi-moon")"></span>
+                </button>
+            </li>
+        </ul>
+    </div>
+</header>
+
+@code {
+    private bool _isMenuOpen = false;
+    private bool _isDarkTheme = true;
+    
+    [Parameter]
+    public EventCallback OnToggleTheme { get; set; }
+    
+    private void ToggleMenu()
+    {
+        _isMenuOpen = !_isMenuOpen;
+    }
+    
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += HandleLocationChange;
+    }
+    
+    private void HandleLocationChange(object? sender, LocationChangedEventArgs e)
+    {
+        _isMenuOpen = false;
+        StateHasChanged();
+    }
+    
+    private async Task ToggleTheme()
+    {
+        _isDarkTheme = !_isDarkTheme;
+        await OnToggleTheme.InvokeAsync();
+    }
+    
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= HandleLocationChange;
+    }
+}
