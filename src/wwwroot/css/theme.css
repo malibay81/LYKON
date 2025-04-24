@@ -86,8 +86,8 @@ html, body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--space-md);
-  margin-top: 60px; /* Header height */
-  margin-bottom: 60px; /* Footer height */
+  margin-top: 44px; /* Header height */
+  margin-bottom: 84px; /* Height of footer */
   
   /* Add padding to create space for scrollbar */
   padding-right: calc(var(--space-md) + 8px);
@@ -236,7 +236,17 @@ footer {
 
 /* Page content wrapper - add this new class */
 .page-content {
-  padding: var(--space-lg) 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.footer-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60px;
+  z-index: 100;
 }
 
 .footer-links {
