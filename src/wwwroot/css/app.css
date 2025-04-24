@@ -117,3 +117,18 @@ body {
     height: 40px;
     animation: spin 1s linear infinite;
 }
+
+.moved-img {
+    object-fit: cover;
+    object-position: -32px 8px;
+    background: white;
+    transform: scaleX(1);
+}
+
+/* Flip and move image */
+.flipped.moved-img {
+    object-fit: cover;
+    object-position: -32px 8px;
+    background: white;
+    transform: scaleX(-1);
+}
